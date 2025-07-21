@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Clean Code - Chapter 3: Functions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background-color: #f8f9fa;
+    }
+    section {
+      margin-bottom: 40px;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .bad {
+      background-color: #ffe5e5;
+    }
+    .good {
+      background-color: #e7fce9;
+    }
+    h2 {
+      color: #444;
+    }
+    input, button {
+      margin: 5px 0;
+      padding: 8px;
+      display: block;
+      width: 300px;
+    }
+    .result {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Clean Code – Chapter 3: Functions</h1>
+
+
+  <section class="bad">
+    <h2> Bad Function Example</h2>
+    <input type="text" id="badName" placeholder="Enter your name" />
+    <input type="text" id="badEmail" placeholder="Enter your email" />
+    <button onclick="b()">Submit</button>
+    <div class="result" id="badResult"></div>
+  </section>
+
+
+  <section class="good">
+    <h2> Clean Function Example</h2>
+    <input type="text" id="goodName" placeholder="Enter your name" />
+    <input type="email" id="goodEmail" placeholder="Enter your email" />
+    <button onclick="handleForm()">Validate</button>
+    <div class="result" id="goodResult"></div>
+  </section>
+
+  <script>
+    
+    function b() {
+      let n = document.getElementById("badName").value;
+      let e = document.getElementById("badEmail").value;
+      let r = document.getElementById("badResult");
+
+      if (n.length < 2) {
+        r.innerText = "bad name";
+      } else if (e.indexOf("@") === -1) {
+        r.innerText = "email wrong";
+      } else {
+        r.innerText = "ok";
+      }
+    }
+
+   
+    function isValidName(name) {
+      return name.trim().length >= 2;
+    }
+
+    function isValidEmail(email) {
+      const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return pattern.test(email);
+    }
+
+    function getInput(id) {
+      return document.getElementById(id).value;
+    }
+
+    function displayResult(message, isSuccess = true) {
+      const result = document.getElementById("goodResult");
+      result.style.color = isSuccess ? "green" : "red";
+      result.textContent = message;
+    }
+
+    function handleForm() {
+      const name = getInput("goodName");
+      const email = getInput("goodEmail");
+
+      if (!isValidName(name)) {
+        displayResult("Name must be at least 2 characters.", false);
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        displayResult("Invalid email format.", false);
+        return;
+      }
+
+      displayResult("Success!");
+    }
+  </script>
+
+</body>
+</html>
